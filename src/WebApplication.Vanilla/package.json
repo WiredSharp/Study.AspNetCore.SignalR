@@ -1,0 +1,17 @@
+{
+  "name": "webapplication.vanilla",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "foo"
+  ],
+  "author": "zericco@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "@aspnet/signalr": "^1.0.0-preview1-update1"
+  },
+  "description": ""
+}

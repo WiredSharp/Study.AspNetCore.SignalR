@@ -1,0 +1,39 @@
+﻿@page
+<div id="chat">
+    <form id="frm-send-message" action="#">
+        <label for="nickname">Pseudo:</label>
+        <input type="text" id="nickname" />
+        <label for="message">Message:</label>
+        <input type="text" id="message" />
+        <input type="submit" id="send" value="Send" />
+    </form>
+    <div class="clear">
+    </div>
+    <ul id="messages"></ul>
+</div>
+<script src="~/js/signalr.js"></script>
+<script>
+    let transportType = signalR.TransportType.WebSockets;
+    let http = new signalR.HttpConnection(`http://${document.location.host}/chat`, { transport: transportType });
+    let connection = new signalR.HubConnection(http);
+    let nickname = document.getElementById('nickname')
+    let message = document.getElementById('message');
+
+    connection.start();
+
+    connection.on('Send', (nick, message) => {
+        appendLine(nick, message, nick === nickname.value);
+    });
+
+    document.getElementById('frm-send-message').addEventListener('submit', event => {
+        connection.invoke('Send', nickname.value, message.value);
+        message.value = '';
+        event.preventDefault();
+    });
+
+    function appendLine(nickname, message, local) {
+        let li = document.createElement('li');
+        li.innerHTML = '<span><strong>[' + nickname + ']</strong>' + message + '</span>';
+        document.getElementById('messages').appendChild(li);
+    };
+</script>
